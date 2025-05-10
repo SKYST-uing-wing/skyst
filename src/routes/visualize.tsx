@@ -30,6 +30,21 @@ const ResultPage: React.FC = () => {
     fetchImage();
   }, [userName]);
 
+  const fetchSpec = async () => {
+    try {
+      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
+      const spec = await res.json();
+      setVectors(spec.vectors);
+      setStatus('ready');
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
+  }
+
+  const spec: number[][] = [[]];
+  fetchSpec();
+
   const handleCompare = async () => {
     if (!targetUser.trim()) return;
     setCompareStatus('loading');
@@ -82,7 +97,7 @@ const ResultPage: React.FC = () => {
       <section className="snap-start h-screen flex flex-col justify-center items-center bg-gray-100 px-6">
         <h2 className="text-2xl font-bold mb-4">Your Analysis Image</h2>
 
-        <CircularBarChart data = {vectors}></CircularBarChart>
+        <CircularBarChart data = {spec}></CircularBarChart>
         
         <TimeSeriesLineChart data = {vectors}></TimeSeriesLineChart>
 
