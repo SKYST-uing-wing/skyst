@@ -70,7 +70,7 @@ const VoiceInput: React.FC = () => {
                 {recordingStatus === "recording" ? "Recording..." : "Start Recording"}
             </button>
             <div style={{position: "absolute", top: 0}}>
-                <CircularWaveform />
+                <CircularWaveform recordingStatus={recordingStatus === "recording"}/>
             </div>
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style={{ zIndex: 1000, position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
