@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, HStack, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, Input, VStack } from "@chakra-ui/react";
 import {
     Modal,
     ModalOverlay,
