@@ -1,62 +1,34 @@
-import React from 'react';
-import { useAudioRecorder } from 'react-use-audio-recorder';
-import CircularWaveform from '../components/CircularWaveForm';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AudioRecorderWithUpload: React.FC = () => {
-  const {
-    startRecording,
-    stopRecording,
-    recordingStatus,
-    recordingTime,
-    getBlob,
-  } = useAudioRecorder();
+const WelcomeScreen: React.FC = () => {
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
 
-  const uploadAudio = async () => {
-
-    const recordingBlob = getBlob();
-    const formData = new FormData();
-    formData.append("file", recordingBlob, "recording.webm");
-    console.log("Uploading audio...");
-
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Upload failed");
-      console.log("Upload successful");
-    } catch (error) {
-      console.error("Upload error:", error);
-    }
-  };
-
-  const handleRecord = () => {
-    startRecording();
-    setTimeout(() => {
-      console.log("Stopping recording...");
-      stopRecording();
-      setTimeout(uploadAudio, 500); // slight delay to ensure blob is ready
-    }, 5000); // Record for 5 seconds
+  const handleSubmit = () => {
+    if (!name.trim()) return;
+    localStorage.setItem('userName', name.trim());
+    navigate('/voice_input');
   };
 
   return (
-    <div className="p-4 flex flex-col items-center space-y-4">
-        <button
-            onClick={handleRecord}
-            className={`px-4 py-2 rounded ${
-            recordingStatus === "recording" ? "bg-red-500" : "bg-blue-500"
-            } text-white`}
-            style={{position: "absolute", zIndex: 1, top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}
-            disabled={recordingStatus === "recording"}
-        >
-            {recordingStatus === "recording" ? "Recording..." : "Start Recording"}
-        </button>
-        <div style={{position: "absolute", top: 0}}>
-            <CircularWaveform />
-        </div>
+    <div className="h-screen flex flex-col items-center justify-center space-y-6 bg-gray-50">
+      <h1 className="text-3xl font-bold">Welcome</h1>
+      <input
+        type="text"
+        placeholder="Enter your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="border rounded px-4 py-2 w-64 text-center"
+      />
+      <button
+        onClick={handleSubmit}
+        className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Continue
+      </button>
     </div>
   );
 };
 
-export default AudioRecorderWithUpload;
+export default WelcomeScreen;
