@@ -6,13 +6,27 @@ import CircularBarChart from '../components/CircularBarNCS';
 
 const ResultPage: React.FC = () => {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [vectors, setVectors] = useState<number[][]>([]);
+  const [vectors, setVectors] = useState<number[][]>([[]]);
+  const [spectrogram, setSpectrogram] = useState<number[][]>([[]]);
 
   const [targetUser, setTargetUser] = useState('');
   const [comparisonResult, setComparisonResult] = useState<string | null>(null);
   const [compareStatus, setCompareStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
 
   const userName = localStorage.getItem('userName') ?? 'unknown';
+
+  const fetchSpec = async () => {
+    try {
+      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
+      const spec = await res.json();
+      setSpectrogram(spec);
+      setStatus('ready');
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
+  }
+  const spec: number[][] = [[]];
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -28,22 +42,11 @@ const ResultPage: React.FC = () => {
     };
 
     fetchImage();
+    fetchSpec();
   }, [userName]);
 
-  const fetchSpec = async () => {
-    try {
-      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
-      const spec = await res.json();
-      setVectors(spec.vectors);
-      setStatus('ready');
-    } catch (err) {
-      console.error(err);
-      setStatus('error');
-    }
-  }
 
-  const spec: number[][] = [[]];
-  fetchSpec();
+
 
   const handleCompare = async () => {
     if (!targetUser.trim()) return;
@@ -97,7 +100,7 @@ const ResultPage: React.FC = () => {
       <section className="snap-start h-screen flex flex-col justify-center items-center bg-gray-100 px-6">
         <h2 className="text-2xl font-bold mb-4">Your Analysis Image</h2>
 
-        <CircularBarChart data = {spec}></CircularBarChart>
+        <CircularBarChart data = {spectrogram}></CircularBarChart>
         
         <TimeSeriesLineChart data = {vectors}></TimeSeriesLineChart>
 

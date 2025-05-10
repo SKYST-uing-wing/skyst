@@ -23,7 +23,7 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
             setIdx(idx=>(idx+1) % (frames * 10));
         }, 1000 * idx_dt_sec);
 
-    console.log(idx / frames);
+    // console.log(idx / frames);
 
     if ((idx / frames) >= 8.95) {
         setIdx(0);
