@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface CircularBarChartProps {
   data: number[][]; // shape: [frames][bars]

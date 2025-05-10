@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, HStack, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, Input, VStack } from "@chakra-ui/react";
 import {
     Modal,
     ModalOverlay,
@@ -212,7 +212,7 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <Text fontSize="5xl" mb={6}>결과 시각화</Text>
+        <Text fontSize="5xl" mb={6}>당신의 숨결을 느껴보세요!</Text>
         <CircularBarChart data={spectrogram}></CircularBarChart> 
 
         <Button
@@ -222,7 +222,7 @@ const ResultPage: React.FC = () => {
         >
           상세 결과 보기
         </Button>
-        <Button onClick={() => setShowModal(true)}>이게 뭐죠...?</Button>
+        <Button onClick={() => setShowModal(true)} mt={5}>이게 뭐죠...?</Button>
         <Modal isOpen={showModal} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -257,6 +257,7 @@ const ResultPage: React.FC = () => {
           key={2}
           onClick={() => scrollToSection(2)}
           colorScheme={"gray"}
+          mt={5}
         >
           더보기!
         </Button>
@@ -306,6 +307,7 @@ const ResultPage: React.FC = () => {
           key={3}
           onClick={() => scrollToSection(3)}
           colorScheme={"gray"}
+          mt={5}
         >
           더보기!
         </Button>
@@ -329,8 +331,8 @@ const ResultPage: React.FC = () => {
           알아보기
         </Button>
         {findingStatus === 'done' && (
-          <Text fontSize="lg" textAlign="center">
-            <Text as="span" fontWeight="bold" color="purple.500">{highestPerson}</Text>
+          <Text fontSize="lg" textAlign="center" mt={5}>
+            당신은 <Text as="span" fontWeight="bold" color="purple.500">@{highestPerson}</Text> 와 호흡이 척척!
           </Text>
         )}
 
@@ -339,6 +341,7 @@ const ResultPage: React.FC = () => {
           key={0}
           onClick={() => scrollToSection(0)}
           colorScheme={"gray"}
+          mt={5}
         >
           처음으로
         </Button>

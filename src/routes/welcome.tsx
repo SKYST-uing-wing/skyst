@@ -74,7 +74,7 @@ const SnapScrollComponent: React.FC = () => {
       >
         <VStack spacing={4}>
           <Input
-            placeholder="당신의 이름은?"
+            placeholder="당신의 이름은?(인스타그램 아이디 권장)"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
