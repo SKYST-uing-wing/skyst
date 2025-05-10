@@ -13,7 +13,7 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
   const [idx, setIdx] = useState(0)
 
   const vectors_dt_sec: number = 1;
-  const idx_dt_sec: number = 0.05;
+  const idx_dt_sec: number = 0.02;
 
   const frames: number = vectors_dt_sec / idx_dt_sec;
 
@@ -43,7 +43,7 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
     if (!ctx) return;
 
     // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Set background color
     const bg_red = 0;
@@ -67,8 +67,8 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
     const red = Math.floor(c1 * 255);
     const green = Math.floor(c2 * 255);
     const blue = Math.floor(c3 * 255);
-    const color = `rgba(${red}, ${green}, ${blue}, 1)`; // soft glow
-    const color_medium = `rgba(${red*0.8}, ${green*0.8}, ${blue*0.8}, 0.8)`
+    const color = `rgba(${red}, ${green}, ${blue}, 0.3)`; // soft glow
+    const color_medium = `rgba(${red*0.8}, ${green*0.8}, ${blue*0.8}, 0.1)`
 
     // Radius (volume): normalize and scale
     const circleRadius = 10 + volume * 400;
@@ -76,7 +76,7 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
     // Create radial gradient (soft edge like airbrush)
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, circleRadius);
     gradient.addColorStop(0, color);
-    gradient.addColorStop(0.7, color_medium);
+    gradient.addColorStop(0.999, color_medium);
     gradient.addColorStop(1, 'rgba(0,0,0,0)')
 
     ctx.fillStyle = gradient;

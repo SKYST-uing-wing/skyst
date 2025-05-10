@@ -16,7 +16,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
-    "react-use-audio-recorder": "^0.4.2"
+    "react-use-audio-recorder": "^0.4.2",
+    "recharts": "^2.15.3"
   },
   "devDependencies": {
     "@chakra-ui/icons": "^2.2.4",

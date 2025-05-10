@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import BreathCircle from '../components/BreathCircle';
 import { URI } from '../../const';
+import TimeSeriesLineChart from '../components/BreathGraph';
+import CircularBarChart from '../components/CircularBarNCS';
 
 const ResultPage = () => {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -52,13 +54,13 @@ const ResultPage = () => {
     );
   }
 
-  // if (status === 'error' || !imageUrl) {
-  //   return (
-  //     <div className="h-screen flex items-center justify-center text-red-500">
-  //       Failed to load result image.
-  //     </div>
-  //   );
-  // }
+  if (status === 'error') {
+    return (
+      <div className="h-screen flex items-center justify-center text-red-500">
+        Failed to load result image.
+      </div>
+    );
+  }
 
   // let vectors: number[][] = [
   //   [0.12, 0.4, 0.78, 0.05, 0.91, 0],
@@ -79,8 +81,10 @@ const ResultPage = () => {
       {/* Section 1: Result Image */}
       <section className="snap-start h-screen flex flex-col justify-center items-center bg-gray-100 px-6">
         <h2 className="text-2xl font-bold mb-4">Your Analysis Image</h2>
-        
 
+        <CircularBarChart data = {vectors}></CircularBarChart>
+        
+        <TimeSeriesLineChart data = {vectors}></TimeSeriesLineChart>
 
         <BreathCircle vectors={vectors}></BreathCircle>
 
