@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, VStack } from "@chakra-ui/react";
 import {
     Modal,
     ModalOverlay,
@@ -30,6 +30,7 @@ const ResultPage: React.FC = () => {
 
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [vectors, setVectors] = useState<number[][]>([[]]);
+  const [yourVectors, setYourVectors] = useState<number[][]>([[]]);
   const [spectrogram, setSpectrogram] = useState<number[][]>([[]]);
 
   const [targetUser, setTargetUser] = useState('');
@@ -50,11 +51,24 @@ const ResultPage: React.FC = () => {
     }
   }
 
+  
+    const fetchYourVec = async (userName: string) => {
+      try {
+        const res = await fetch(`${URI}result?name=${encodeURIComponent(userName)}`);
+        const data = await res.json();
+        setYourVectors(data.vectors);
+        setStatus('ready');
+      } catch (err) {
+        console.error(err);
+        setStatus('error');
+      }
+    };
+
   const [celebName, setCelebName] = useState('차은우');
   const [celebSimilarity, setCelebSimilarity] = useState(0.5);
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchImage = async (userName: string) => {
       try {
         const res = await fetch(`${URI}result?name=${encodeURIComponent(userName)}`);
         const data = await res.json();
@@ -68,7 +82,8 @@ const ResultPage: React.FC = () => {
       }
     };
 
-    fetchImage();
+
+    fetchImage(userName);
     fetchSpec();
   }, [userName]);
 
@@ -149,6 +164,7 @@ const ResultPage: React.FC = () => {
       setFinding(false);
       setFindingStatus('done');
     } catch (err) {
+      console.log(1)
       console.error(err);
       setFinding(false);
     }
@@ -181,7 +197,7 @@ const ResultPage: React.FC = () => {
       position="relative"
     >
 
-      <TimeSeriesLineChart data={vectors}></TimeSeriesLineChart>
+
 
       <BreathCircle vectors={vectors}></BreathCircle>
       <Box
@@ -197,6 +213,8 @@ const ResultPage: React.FC = () => {
         bg={`gray.${(0 + 1) * 200}`}
       >
         <Text fontSize="5xl" mb={6}>결과 시각화</Text>
+        <CircularBarChart data={spectrogram}></CircularBarChart> 
+
         <Button
           key={1}
           onClick={() => scrollToSection(1)}
@@ -219,9 +237,10 @@ const ResultPage: React.FC = () => {
                 </ModalFooter>
             </ModalContent>
         </Modal>
+        
       </Box>
 
-       <Box
+      <Box
         key={1}
         ref={sectionRefs[1]}
         height="100vh"
@@ -233,35 +252,10 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <Text fontSize="5xl" mb={6}>결과 시각화</Text>
-
-        <CircularBarChart data={spectrogram}></CircularBarChart> 
-
+        <CompareWithCeleb name={celebName} src={`/${celebName}.jpg`} similarity={Math.round((celebSimilarity+1)*50)}/>
         <Button
           key={2}
           onClick={() => scrollToSection(2)}
-          colorScheme={"gray"}
-        >
-          상세 결과 보기
-        </Button>
-      </Box>      
-
-      <Box
-        key={2}
-        ref={sectionRefs[2]}
-        height="100vh"
-        width="100%"
-        scrollSnapAlign="start"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        bg={`gray.${(0 + 1) * 200}`}
-      >
-        <CompareWithCeleb name={celebName} src={`/${celebName}.jpg`} similarity={Math.round((celebSimilarity+1)*50)}/>
-        <Button
-          key={3}
-          onClick={() => scrollToSection(3)}
           colorScheme={"gray"}
         >
           더보기!
@@ -269,8 +263,8 @@ const ResultPage: React.FC = () => {
       </Box>
 
       <Box
-        key={3}
-        ref={sectionRefs[3]}
+        key={2}
+        ref={sectionRefs[2]}
         height="100vh"
         width="100%"
         scrollSnapAlign="start"
@@ -285,13 +279,14 @@ const ResultPage: React.FC = () => {
           <Input
             placeholder="그대의 이름은?"
             value={targetUser}
-            onChange={(e) => setTargetUser(e.target.value)}
+            onChange={(e) => {setTargetUser(e.target.value);}}
             isInvalid={!!error}
           />
           {error && <Text color="red.500">{error}</Text>}
-          <Button onClick={handleSubmit} isLoading={loading} colorScheme="blue" disabled={loading}>
+          <Button onClick={() => {handleSubmit();  fetchYourVec(targetUser);}} isLoading={loading} colorScheme="blue" disabled={loading}>
             알아보기
           </Button>
+
           {compareStatus === 'done' && (
             <Text fontSize="lg" textAlign="center">
               <Text as="span" fontWeight="bold" color="purple.500">{targetUser}</Text>와의 숨소리는 <Text as="span" fontWeight="bold" color="purple.500">{Math.round(comparisonResult * 50 + 50)}%</Text>만큼 비슷합니다!
@@ -299,18 +294,27 @@ const ResultPage: React.FC = () => {
           )}
         </VStack>
         
+
+        {compareStatus === 'done' && ( 
+          <HStack>
+            <TimeSeriesLineChart data={vectors}></TimeSeriesLineChart>
+            <TimeSeriesLineChart data={yourVectors}></TimeSeriesLineChart>
+          </HStack>
+        )}
+
         <Button
-          key={4}
-          onClick={() => scrollToSection(4)}
+          key={3}
+          onClick={() => scrollToSection(3)}
           colorScheme={"gray"}
         >
           더보기!
         </Button>
+        
       </Box>
 
       <Box
-        key={4}
-        ref={sectionRefs[4]}
+        key={3}
+        ref={sectionRefs[3]}
         height="100vh"
         width="100%"
         scrollSnapAlign="start"
@@ -321,7 +325,7 @@ const ResultPage: React.FC = () => {
         bg={`gray.${(0 + 1) * 200}`}
       >
         <Text fontSize="5xl" mb={6}>나는 누구와 궁합이 최고?</Text>
-        <Button onClick={handleFind} isLoading={finding} colorScheme="blue" disabled={finding}>
+        <Button onClick={() => {handleFind()}} isLoading={finding} colorScheme="blue" disabled={finding}>
           알아보기
         </Button>
         {findingStatus === 'done' && (
@@ -329,6 +333,8 @@ const ResultPage: React.FC = () => {
             <Text as="span" fontWeight="bold" color="purple.500">{highestPerson}</Text>
           </Text>
         )}
+
+
         <Button
           key={0}
           onClick={() => scrollToSection(0)}

@@ -25,7 +25,7 @@ const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({ data }) => {
   });
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width={600} height={400}>
       <LineChart
         data={formattedData}
         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
