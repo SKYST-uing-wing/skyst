@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Input, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {
     Modal,
@@ -255,7 +255,10 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
+        <Center>
+
         <CompareWithCeleb name={celebName} src={`/${celebName}.jpg`} similarity={Math.round((celebSimilarity+1)*50)}/>
+        </Center>
         <Button
           key={2}
           onClick={() => scrollToSection(2)}
