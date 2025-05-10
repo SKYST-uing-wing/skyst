@@ -16,8 +16,6 @@ const CircularBarChart: React.FC<CircularBarChartProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [idx, setIdx] = useState(0);
 
-  const vectors_dt_sec = 1;
-  const idx_dt_sec = 0.02;
   const frames = 24;
 
   // 업데이트 타이머
