@@ -10,21 +10,21 @@ interface CircularBarChartProps {
 const CircularBarChart: React.FC<CircularBarChartProps> = ({
   data,
   size = 400,
-  barColor = "#00f0ff",
-  backgroundColor = "#000000"
+  barColor = "#9C27B0",
+  backgroundColor = "#EEEEEE"
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [idx, setIdx] = useState(0);
 
   const vectors_dt_sec = 1;
   const idx_dt_sec = 0.02;
-  const frames = vectors_dt_sec / idx_dt_sec;
+  const frames = 24;
 
   // 업데이트 타이머
   useEffect(() => {
     const interval = setInterval(() => {
-      setIdx((prev) => (prev + 1) % (frames * 10));
-    }, 1000 * idx_dt_sec);
+      setIdx((prev) => (prev + 1) % (frames * 5));
+    }, 1000 / frames);
 
     return () => clearInterval(interval);
   }, []);
