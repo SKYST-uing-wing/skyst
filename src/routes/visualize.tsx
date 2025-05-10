@@ -5,6 +5,7 @@ import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
 import { Box, Button, Input, VStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import {
     Modal,
     ModalOverlay,
@@ -17,7 +18,7 @@ import {
 
 const ResultPage: React.FC = () => {
   const sectionRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
-
+  const navigate = useNavigate();
   const scrollToSection = (index: number) => {
     sectionRefs[index].current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -26,6 +27,7 @@ const ResultPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [finding, setFinding] = useState(false);
   const [highestPerson, setHighestPerson] = useState("");
+  const [highestSimilarity, setHighestSimilarity] = useState(0);
   const [findingStatus, setFindingStatus] = useState<'idle' | 'loading' | 'done'>('idle');
 
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -161,6 +163,7 @@ const ResultPage: React.FC = () => {
         return second[1] - first[1];
       });
       setHighestPerson(items[0][0]);
+      setHighestSimilarity(items[0][1]);
       setFinding(false);
       setFindingStatus('done');
     } catch (err) {
@@ -332,14 +335,15 @@ const ResultPage: React.FC = () => {
         </Button>
         {findingStatus === 'done' && (
           <Text fontSize="lg" textAlign="center" mt={5}>
-            당신은 <Text as="span" fontWeight="bold" color="purple.500">@{highestPerson}</Text> 와 호흡이 척척!
+            <Text>당신은 <Text as="span" fontWeight="bold" color="purple.500">@{highestPerson}</Text> 와 호흡이 척척!</Text>
+            <Text as="span" fontWeight="bold"><Text as="span" fontWeight="bold" color="purple.500">@{highestPerson}</Text> 와 궁합은 {Math.round((highestSimilarity + 1) * 50)}%!</Text>
           </Text>
         )}
 
 
         <Button
           key={0}
-          onClick={() => scrollToSection(0)}
+          onClick={() => navigate('/')}
           colorScheme={"gray"}
           mt={5}
         >
