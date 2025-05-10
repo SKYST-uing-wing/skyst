@@ -53,10 +53,10 @@ const SnapScrollComponent: React.FC = () => {
             <Image src={textIcon} alt="Logo" height={12} />           
           </HStack>
           <Text mt={5} fontSize="lg" textAlign="center">
-            <Text as="span" fontWeight="bold">그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500">호흡</Text>이 얼마나 잘 맞을까...?
+            <Text as="span" fontWeight="bold" fontSize='2xl'>그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500" fontSize='2xl'>호흡</Text>이 얼마나 잘 맞을까...?
           </Text>
         <Button onClick={handleScroll} colorScheme="blue" mt={15}>
-          Get Started
+          시작하기
         </Button>
         </VStack>
       </Box>
@@ -74,7 +74,7 @@ const SnapScrollComponent: React.FC = () => {
       >
         <VStack spacing={4}>
           <Input
-            placeholder="Enter your name"
+            placeholder="당신의 이름은?"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -83,7 +83,7 @@ const SnapScrollComponent: React.FC = () => {
           />
           {error && <Text color="red.500">{error}</Text>}
           <Button onClick={handleSubmit} colorScheme="green">
-            Submit
+            시작하기
           </Button>
         </VStack>
         <HStack spacing={4} position="absolute" bottom={4}>
