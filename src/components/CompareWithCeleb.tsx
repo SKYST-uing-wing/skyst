@@ -9,7 +9,7 @@ type CompareWithCelebProps = {
 export default function CompareWithCeleb({name, src, similarity}: CompareWithCelebProps) {
     return (
             <VStack spacing={4}>
-                <Heading fontSize="2xl" fontWeight="bold">당신과 가장 숨소리가 비슷한 연예인은...</Heading>
+                <Heading fontSize="xl" fontWeight="bold">당신과 가장 숨소리가 비슷한 연예인은...</Heading>
                 <Image src={src} alt="Celebrity" boxSize="150px" />
                 <Text fontSize="lg" textAlign="center">
                     <Text as="span" fontWeight="bold" color="purple.500">{name}</Text>입니다!

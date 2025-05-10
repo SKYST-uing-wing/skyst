@@ -215,7 +215,7 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <Text fontSize="5xl" mb={6}>당신의 숨결을 느껴보세요!</Text>
+        <Text fontSize="3xl" mb={6}>당신의 숨결을 느껴보세요!</Text>
         <CircularBarChart data={spectrogram}></CircularBarChart> 
 
         <Button
@@ -281,7 +281,7 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <Text fontSize="5xl" mb={6}>나는 <Text as="span" fontWeight="bold">그대</Text>의 <Text as="span" fontWeight="bold" color="purple.500">숨결</Text>을 느낄 수 있어요</Text>
+        <Text fontSize="2xl" mb={6}>나는 <Text as="span" fontWeight="bold">그대</Text>의 <Text as="span" fontWeight="bold" color="purple.500">숨결</Text>을 느낄 수 있어요</Text>
         <VStack spacing={4}>
           <Input
             placeholder="그대의 이름은?"
@@ -332,7 +332,7 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <Text fontSize="5xl" mb={6}>나는 누구와 궁합이 최고?</Text>
+        <Text fontSize="3xl" mb={6}>나는 누구와 궁합이 최고?</Text>
         <Button onClick={() => {handleFind()}} isLoading={finding} colorScheme="blue" disabled={finding}>
           알아보기
         </Button>
