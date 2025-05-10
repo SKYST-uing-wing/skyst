@@ -1,34 +1,93 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from "react";
+import { Box, Button, Input, VStack, Text, HStack, Image, Heading } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import logoIcon from "../assets/output.png";
 
-const WelcomeScreen: React.FC = () => {
-  const [name, setName] = useState('');
+
+const SnapScrollComponent: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleScroll = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleSubmit = () => {
-    if (!name.trim()) return;
-    localStorage.setItem('userName', name.trim());
-    navigate('/voice_input');
+    if (!name.trim()) {
+      setError("Name is required");
+      return;
+    }
+    localStorage.setItem("userName", name);
+    navigate("/next-page");
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center space-y-6 bg-gray-50">
-      <h1 className="text-3xl font-bold">Welcome</h1>
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="border rounded px-4 py-2 w-64 text-center"
-      />
-      <button
-        onClick={handleSubmit}
-        className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+    <Box
+      ref={containerRef}
+      height="200vh"
+      width="100vw"
+      scrollSnapType="y mandatory"
+      overflow="hidden"
+      position="relative"
+    >
+      <Box
+        height="100vh"
+        width="100%"
+        scrollSnapAlign="start"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        pb={24}
+        bg="blue.100"
+        position="relative"
       >
-        Continue
-      </button>
-    </div>
+        <Box position="absolute" top={24}>
+          <HStack spacing={3} justifyContent="center">
+            <Image src={logoIcon} alt="Logo" boxSize={12} />
+            <Heading fontSize="4xl" fontWeight="bold">숨: 고르기</Heading>
+          </HStack>
+          <Text mt={5} fontSize="lg" textAlign="center">
+            <Text as="span" fontWeight="bold">그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500">호흡</Text>이 얼마나 잘 맞을까...?
+          </Text>
+        </Box>
+
+        <Button onClick={handleScroll} colorScheme="blue">
+          Get Started
+        </Button>
+      </Box>
+
+      <Box
+        ref={bottomRef}
+        height="100vh"
+        width="100%"
+        scrollSnapAlign="start"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        bg="gray.100"
+      >
+        <VStack spacing={4}>
+          <Input
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (error) setError("");
+            }}
+          />
+          {error && <Text color="red.500">{error}</Text>}
+          <Button onClick={handleSubmit} colorScheme="green">
+            Submit
+          </Button>
+        </VStack>
+      </Box>
+    </Box>
   );
 };
 
-export default WelcomeScreen;
+export default SnapScrollComponent;

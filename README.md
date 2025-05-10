@@ -1,54 +1,48 @@
-# React + TypeScript + Vite
+# 제목: TBD
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. 아이디어 개요
+사람들의 숨소리를 받아 시각화해주고,  이를 기반으로 사람들의 궁합을 보며, 숨소리가 비슷한 사람을 매치해준다.
 
-Currently, two official plugins are available:
+## 2. 프로그램 개발 목적
+(숨소리가 비슷한 사람이 실제로 성격이 잘 맞을 확률이 있다는 주장)
+(ex. 담배 피우면 폐에 영향이 간다. 행동이 다 숨소리에 반영되는 것이다.) 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+(원래 이름 궁합 얘기하면서 “재미” 요소 강조)
 
-## Expanding the ESLint configuration
+## 3. 주제와의 관련성
+무한궤도(신해철)의 “그대에게”에서 나타나는 공통된 주제/이미지를 크게 두 가지, “타인과의 연결”과 “숨결”로 정리할 수 있었다.
+가사를 들어보았을 때 주인공이 “그대”라는 주체를 항상 마음에 두고 있다는 점을 알 수 있다. 특히, “내 삶이 끝나는 날까지 \ 나는 언제나 그대 곁에 있겠어요”를 보면 타인과 연결되고 싶은 마음가짐을 볼 수 있고, “이 세상 어느 곳에서도 \ 나는 그대 숨결을 느낄 수 있어요”를 보면 직접 접촉하는 것이 아닌 원격으로 네트워킹을 이용해 서로 연결되고자 하는 마음가짐을 알 수 있다.
+또한, “이 세상 어느 곳에서도 \ 나는 그대 숨결을 느낄 수 있어요” 를 보면 위 문단에서 서술한 “네트위킹”의 매개체가 “숨결”이라는 점을 확인할 수 있다. 이런 점에서 착안하여 “숨소리”라는 매개체로 사용자 간의 연결이 가능한 앱을 개발하고자 한다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 4. 구현할 기능
+웹 환경에서 기능을 구현한다. 
+### 4.0 숨소리 녹음
+마이크 API를 활용하여 사용자의 숨소리를 녹음한다. (녹음된 소리가 숨소리인지를 판단하는 로직을 거친다.)
+### 4.1 숨소리에서 수치 데이터 추출
+숨소리로부터 mel-spectrogram을 얻는다. 
+기존에 있는 숨소리 데이터와 Auto Encoder를 이용해서 숨소리를 작은 벡터로   Mel-spectrogram 데이터를 auto encoder 
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+(사용할 숨소리 데이터)
+https://pixabay.com/sound-effects/search/breathe/
+https://uppbeat.io/sfx/category/body/breathing
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 4.2 수치로부터 이미지 생성
+생성된 데이터를 바탕으로 이를 시각적으로 표현하는 동작을 구현한다. 
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+(참고)
+추출한 데이터로부터 추상적인 이미지를 생성하여 보여주고 추후 다른 기능에 사용할 예정 (운동 중 / 운동 기록 용도 등) 
+TouchDesigner (라이브러리 없음)
+Tone.js / p5.js
+세부 계획: 숨소리가 실시간으로 반영되어 비디오를 만들면 좋지 않을까?
+Frame으로 잘라서 숨소리의 특정 시점들에서 auto-encoding -> 
+
+### 4.3 수치로부터 궁합 보기
+Mel-spectrogram으로 클러스터링을 진행한다. Mel-spectrogram을 차원축소해서 사용한다. (auto-encoder, PCA) 
+
+## 5. 팀원 간 업무 분담 현황
+이한경: 숨소리 데이터 크롤링
+윤영우: frontend
+김건호: api
+방지현: 시각화
+유승곤: 유사도 계산
