@@ -1,5 +1,5 @@
 :root {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'GowunDodum-Regular', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -66,4 +66,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
