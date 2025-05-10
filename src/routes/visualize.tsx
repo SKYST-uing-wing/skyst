@@ -49,6 +49,21 @@ const ResultPage: React.FC = () => {
     fetchImage();
   }, [userName]);
 
+  const fetchSpec = async () => {
+    try {
+      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
+      const spec = await res.json();
+      setVectors(spec.vectors);
+      setStatus('ready');
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
+  }
+
+  const spec: number[][] = [[]];
+  fetchSpec();
+
   const handleCompare = async () => {
     if (!targetUser.trim()) return;
     setCompareStatus('loading');
