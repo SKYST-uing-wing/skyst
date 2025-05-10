@@ -12,7 +12,7 @@ import {
     ModalFooter,
     Text,
 } from "@chakra-ui/react";
-import textIcon from "../assets/icon2white.png"
+import textIcon from "../assets/icon2.png"
 import logoIcon from "../assets/output.png";
 import { URI } from "../../const";
 
@@ -99,15 +99,15 @@ const VoiceInput: React.FC = () => {
                     onClick={handleRecord}
                     disabled={recordingStatus === "recording"}
                     borderWidth={2}
-                    borderColor="white"
-                    textColor={"white"}
+                    borderColor="black"
+                    textColor={"black"}
                     backgroundColor={"transparent"}
                 >
                     {recordingStatus === "recording" ? "듣는 중..." : "녹음 시작!"}
                 </Button>
             </Center>
             <Center>
-                <Text color={'white'} zIndex={1} position={'absolute'} top={'80%'} fontSize={22} >5초 동안 숨소리를 들려주세요...</Text>
+                <Text color={'black'} zIndex={1} position={'absolute'} top={'80%'} fontSize={22} >5초 동안 숨소리를 들려주세요...</Text>
             </Center>
             <Modal isOpen={showModal} onClose={onClose} isCentered>
                 <ModalOverlay />

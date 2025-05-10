@@ -112,7 +112,7 @@ const CircularWaveform: React.FC<CircularWaveformProps> = ({ recordingStatus }) 
     };
   }, [recordingStatus]);
 
-  return <canvas ref={canvasRef} style={{ display: 'block', background: '#0a0a1f' }} />;
+  return <canvas ref={canvasRef} style={{ display: 'block', background: '#f5f5f5' }} />;
 };
 
 export default CircularWaveform;
