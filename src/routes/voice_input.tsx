@@ -8,7 +8,6 @@ const VoiceInput: React.FC = () => {
         startRecording,
         stopRecording,
         recordingStatus,
-        recordingTime,
         getBlob,
     } = useAudioRecorder();
 

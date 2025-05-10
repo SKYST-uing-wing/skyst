@@ -23,7 +23,7 @@ const AudioRecorder: React.FC = () => {
       };
 
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
         const url = URL.createObjectURL(audioBlob);
         setAudioURL(url);
         uploadAudio(audioBlob);
@@ -44,7 +44,7 @@ const AudioRecorder: React.FC = () => {
 
   const uploadAudio = async (audioBlob: Blob) => {
     const formData = new FormData();
-    formData.append('file', audioBlob, 'recording.webm');
+    formData.append('file', audioBlob, 'recording.wav');
 
     try {
       const response = await fetch('/api/upload', {
