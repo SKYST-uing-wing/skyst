@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, Heading, Input, VStack } from "@chakra-ui/react";
+
 
 const WelcomeScreen: React.FC = () => {
   const [name, setName] = useState('');
@@ -12,22 +14,22 @@ const WelcomeScreen: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center space-y-6 bg-gray-50">
-      <h1 className="text-3xl font-bold">Welcome</h1>
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="border rounded px-4 py-2 w-64 text-center"
-      />
-      <button
-        onClick={handleSubmit}
-        className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Continue
-      </button>
-    </div>
+    <Box h="100vh" w="100vw" display="flex" alignItems="center" justifyContent="center">
+      <VStack spacing={6}>
+        <Heading size="lg">Welcome</Heading>
+        <Input
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          size="md"
+          textAlign="center"
+          w="16rem"
+        />
+        <Button colorScheme="blue" onClick={handleSubmit}>
+          Continue
+        </Button>
+      </VStack>
+    </Box>
   );
 };
 
