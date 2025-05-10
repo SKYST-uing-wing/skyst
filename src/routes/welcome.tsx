@@ -50,7 +50,7 @@ const SnapScrollComponent: React.FC = () => {
         <VStack position="absolute" top={24}>
           <HStack spacing={3} justifyContent="center">
             <Image src={logoIcon} alt="Logo" boxSize={12} />
-            <Image src={textIcon} alt="Logo" height={12} />            
+            <Image src={textIcon} alt="Logo" height={12} />           
           </HStack>
           <Text mt={5} fontSize="lg" textAlign="center">
             <Text as="span" fontWeight="bold">그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500">호흡</Text>이 얼마나 잘 맞을까...?
