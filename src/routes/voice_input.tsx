@@ -10,9 +10,9 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Heading,
     Text,
 } from "@chakra-ui/react";
+import textIcon from "../assets/icon2white.png"
 import logoIcon from "../assets/output.png";
 import { URI } from "../../const";
 
@@ -89,7 +89,7 @@ const VoiceInput: React.FC = () => {
                 zIndex={1}
             >
                 <Image src={logoIcon} alt="Logo" boxSize={12} />
-                <Heading fontSize="4xl" fontWeight="bold" color={'white'}>숨: 고르기</Heading>
+                <Image src={textIcon} alt="Logo" height={12} />  
             </HStack>
             <Box style={{ position: "absolute", top: 0 }}>
                 <CircularWaveform recordingStatus={recordingStatus === "recording"} />
