@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Box, Button, Input, VStack, Text, HStack, Image } from "@chakra-ui/react";
+import { Box, Button, Input, VStack, Text, HStack, Image, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import logoIcon from "../assets/output.png";
 import textIcon from "../assets/icon2.png"
@@ -41,24 +41,23 @@ const SnapScrollComponent: React.FC = () => {
         scrollSnapAlign="start"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        pb={24}
         bg="blue.100"
         position="relative"
       >
-        <VStack position="absolute" top={24}>
-          <HStack spacing={3} justifyContent="center">
-            <Image src={logoIcon} alt="Logo" boxSize={12} />
-            <Image src={textIcon} alt="Logo" height={12} />           
-          </HStack>
-          <Text mt={5} fontSize="lg" textAlign="center">
-            <Text as="span" fontWeight="bold" fontSize='2xl'>그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500" fontSize='2xl'>호흡</Text>이 얼마나 잘 맞을까...?
-          </Text>
-        <Button onClick={handleScroll} colorScheme="blue" mt={15}>
-          시작하기
-        </Button>
-        </VStack>
+        <Center w="100%" h="100vh">
+          <VStack top={24}>
+            <HStack spacing={3} justifyContent="center">
+              <Image src={logoIcon} alt="Logo" boxSize={12} />
+              <Image src={textIcon} alt="Logo" height={12} />
+            </HStack>
+            <Text mt={5} fontSize="lg" textAlign="center">
+              <Text as="span" fontWeight="bold" fontSize='2xl'>그대</Text>와 <Text as="span" fontWeight="bold" color="purple.500" fontSize='2xl'>호흡</Text>이 얼마나 잘 맞을까...?
+            </Text>
+            <Button onClick={handleScroll} colorScheme="blue" mt={15}>
+              시작하기
+            </Button>
+          </VStack>
+        </Center>
       </Box>
 
       <Box
@@ -74,7 +73,7 @@ const SnapScrollComponent: React.FC = () => {
       >
         <VStack spacing={4}>
           <Input
-            placeholder="당신의 이름은?(인스타그램 아이디 권장)"
+            placeholder="당신의 이름은? (인스타그램 아이디 권장)"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
