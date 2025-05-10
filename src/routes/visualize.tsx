@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import BreathCircle from '../components/BreathCircle';
+import { URI } from '../../const';
 
 const ResultPage = () => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [vectors, setVectors] = useState<number[][]>([]);
 
   const [targetUser, setTargetUser] = useState('');
   const [comparisonResult, setComparisonResult] = useState<string | null>(null);
@@ -14,9 +15,9 @@ const ResultPage = () => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const res = await fetch(`/api/result?name=${encodeURIComponent(userName)}`);
+        const res = await fetch(`${URI}result?name=${encodeURIComponent(userName)}`);
         const data = await res.json();
-        setImageUrl(data.imageUrl);
+        setVectors(data.vectors);
         setStatus('ready');
       } catch (err) {
         console.error(err);
@@ -59,18 +60,18 @@ const ResultPage = () => {
   //   );
   // }
 
-  let vectors: number[][] = [
-    [0.12, 0.4, 0.78, 0.05, 0.91, 0],
-    [0.14, 0.5, 0.77, 0.06, 0.90, 0.1],
-    [0.13, 0.6, 0.76, 0.08, 0.88, 0.2],
-    [0.15, 0.5, 0.74, 0.07, 0.87, 0.3],
-    [0.16, 0.4, 0.75, 0.06, 0.89, 0.4],
-    [0.18, 0.3, 0.76, 0.05, 0.90, 0.5],
-    [0.19, 0.2, 0.78, 0.04, 0.91, 0.6],
-    [0.20, 0.3, 0.79, 0.06, 0.92, 0.7],
-    [0.19, 0.4, 0.81, 0.07, 0.91, 0.8],
-    [0.21, 0.5, 0.82, 0.08, 0.90, 0.9]
-  ];
+  // let vectors: number[][] = [
+  //   [0.12, 0.4, 0.78, 0.05, 0.91, 0],
+  //   [0.14, 0.5, 0.77, 0.06, 0.90, 0.1],
+  //   [0.13, 0.6, 0.76, 0.08, 0.88, 0.2],
+  //   [0.15, 0.5, 0.74, 0.07, 0.87, 0.3],
+  //   [0.16, 0.4, 0.75, 0.06, 0.89, 0.4],
+  //   [0.18, 0.3, 0.76, 0.05, 0.90, 0.5],
+  //   [0.19, 0.2, 0.78, 0.04, 0.91, 0.6],
+  //   [0.20, 0.3, 0.79, 0.06, 0.92, 0.7],
+  //   [0.19, 0.4, 0.81, 0.07, 0.91, 0.8],
+  //   [0.21, 0.5, 0.82, 0.08, 0.90, 0.9]
+  // ];
   
 
   return (

@@ -14,6 +14,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import logoIcon from "../assets/output.png";
+import { URI } from "../../const";
 
 const VoiceInput: React.FC = () => {
     const {
@@ -27,7 +28,7 @@ const VoiceInput: React.FC = () => {
     const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
     const [audioURL, setAudioURL] = useState<string | null>(null);
     const navigate = useNavigate();
-
+    const [isPressed, setIsPressed] = useState(false);
 
 
     const handleRecord = () => {
@@ -52,19 +53,22 @@ const VoiceInput: React.FC = () => {
         const userName = localStorage.getItem('userName') ?? 'unknown';
         const formData = new FormData();
         formData.append('file', audioBlob, `${userName}.wav`);
+        setIsPressed(true);
 
         try {
-            const response = await fetch(`http://192.168.1.253:8080/upload-mp3?name=${encodeURIComponent(userName)}`, {
+            const response = await fetch(`${URI}upload-mp3?name=${encodeURIComponent(userName)}`, {
                 method: 'POST',
                 body: formData,
             });
 
             if (!response.ok) throw new Error('Upload failed');
 
+
             console.log('Upload successful');
             navigate('/visualize'); // Redirect after confirmation
         } catch (error) {
             console.error('Upload error:', error);
+            setIsPressed(false);
         }
     };
 
@@ -112,8 +116,8 @@ const VoiceInput: React.FC = () => {
                         <Button onClick={onClose} mr={3} colorScheme="gray">
                             취소
                         </Button>
-                        <Button onClick={handleConfirm} colorScheme="blue">
-                            확인 & 진행!
+                        <Button onClick={handleConfirm} colorScheme="blue" disabled={isPressed}>
+                            {!isPressed ? "확인 & 진행!": "진행 중..."}
                         </Button>
                     </ModalFooter>
                 </ModalContent>
