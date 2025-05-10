@@ -98,6 +98,10 @@ const VoiceInput: React.FC = () => {
                 <Button
                     onClick={handleRecord}
                     disabled={recordingStatus === "recording"}
+                    borderWidth={2}
+                    borderColor="white"
+                    textColor={"white"}
+                    backgroundColor={"transparent"}
                 >
                     {recordingStatus === "recording" ? "듣는 중..." : "녹음 시작!"}
                 </Button>
