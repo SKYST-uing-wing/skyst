@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BreathCircle from '../components/BreathCircle';
 import { URI } from '../../const';
 
-const ResultPage = () => {
+const ResultPage: React.FC = () => {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [vectors, setVectors] = useState<number[][]>([]);
 

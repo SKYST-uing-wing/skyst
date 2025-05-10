@@ -46,9 +46,9 @@ const BreathCircle: React.FC<BreathCircleProps> = ({ vectors, size = 500 }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Set background color
-    const bg_red = 0;
-    const bg_green = 0; 
-    const bg_blue = 0;
+    // const bg_red = 0;
+    // const bg_green = 0; 
+    // const bg_blue = 0;
 
     const background = `rgba(bg_red, bg_green, bg_blue, 1)`
     ctx.fillStyle = background;

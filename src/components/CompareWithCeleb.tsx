@@ -1,4 +1,4 @@
-import { Box, Button, Input, VStack, Text, HStack, Image, Heading } from "@chakra-ui/react";
+import { VStack, Text, Image, Heading } from "@chakra-ui/react";
 
 type CompareWithCelebProps = {
     name: string;
