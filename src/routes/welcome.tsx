@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import { Box, Button, Input, VStack, Text, HStack, Image, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import logoIcon from "../assets/output.png";
-
+import reactLogo from "../assets/react.svg"; // Add the appropriate path
+import chakraLogo from "../assets/chakra-logo.png"; // Add the appropriate path
 
 const SnapScrollComponent: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -85,6 +86,12 @@ const SnapScrollComponent: React.FC = () => {
             Submit
           </Button>
         </VStack>
+        <HStack spacing={4} position="absolute" bottom={4}>
+          <Text fontSize="sm">Made with</Text>
+          <Image src={reactLogo} alt="React Logo" boxSize={6} />
+          <Image src={chakraLogo} alt="Chakra UI Logo" boxSize={6} />
+          <Text fontSize="sm">React & Chakra UI</Text>
+        </HStack>
       </Box>
     </Box>
   );
