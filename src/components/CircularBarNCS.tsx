@@ -11,7 +11,7 @@ const CircularBarChart: React.FC<CircularBarChartProps> = ({
   data,
   size = 400,
   barColor = "#9C27B0",
-  backgroundColor = "#EEEEEE"
+  backgroundColor = "#e2e8f0"
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [idx, setIdx] = useState(0);
