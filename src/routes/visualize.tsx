@@ -296,10 +296,10 @@ const ResultPage: React.FC = () => {
         
 
         {compareStatus === 'done' && ( 
-          <HStack>
+          <VStack>
             <TimeSeriesLineChart data={vectors}></TimeSeriesLineChart>
             <TimeSeriesLineChart data={yourVectors}></TimeSeriesLineChart>
-          </HStack>
+          </VStack>
         )}
 
         <Button
