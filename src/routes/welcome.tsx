@@ -53,7 +53,7 @@ const AudioRecorderWithUpload: React.FC = () => {
             {recordingStatus === "recording" ? "Recording..." : "Start Recording"}
         </button>
         <div style={{position: "absolute", top: 0}}>
-            <CircularWaveform />
+            <CircularWaveform recordingStatus={recordingStatus === "recording"}/>
         </div>
     </div>
   );

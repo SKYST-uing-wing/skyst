@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-const CircularWaveform: React.FC = () => {
+interface CircularWaveformProps {
+  recordingStatus: boolean;
+}
+
+const CircularWaveform: React.FC<CircularWaveformProps> = ({ recordingStatus }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previousDataRef = useRef<Float32Array | null>(null);
 
@@ -35,7 +39,7 @@ const CircularWaveform: React.FC = () => {
       const draw = () => {
         analyser.getFloatTimeDomainData(dataArray);
 
-        // 스무딩 처리 (이전 프레임과 평균)
+        // Smooth data
         const previousData = previousDataRef.current;
         if (previousData) {
           for (let i = 0; i < bufferLength; i++) {
@@ -48,11 +52,14 @@ const CircularWaveform: React.FC = () => {
         ctx.clearRect(0, 0, width, height);
 
         ctx.beginPath();
+        const normFactor: number = recordingStatus
+          ? 1 
+          : 0;
         for (let i = 0; i < bufferLength; i++) {
           const angle = (i / bufferLength) * 2 * Math.PI;
           const v = dataArray[i];
-          const smoothed = Math.max(-1, Math.min(1, v)); // clamp
-          const r = radius + smoothed * 80;
+          const smoothed = Math.max(-1, Math.min(1, v));
+          const r = radius + normFactor * smoothed * 80;
           const x = centerX + r * Math.cos(angle);
           const y = centerY + r * Math.sin(angle);
 
@@ -65,14 +72,20 @@ const CircularWaveform: React.FC = () => {
 
         ctx.closePath();
 
+        // 💡 Put colors here to reflect latest `recordingStatus`
+        const dynamicColors = recordingStatus
+          ? ['#00ffff', '#ff00ff', '#00aaff']
+          : ['#1a1f33', '#2a2f44', '#3a3f55'];
+
         const gradient = ctx.createLinearGradient(0, 0, width, height);
-        gradient.addColorStop(0, '#00ffff');
-        gradient.addColorStop(0.5, '#ff00ff');
-        gradient.addColorStop(1, '#00aaff');
+        gradient.addColorStop(0, dynamicColors[0]);
+        gradient.addColorStop(0.5, dynamicColors[1]);
+        gradient.addColorStop(1, dynamicColors[2]);
+
         ctx.strokeStyle = gradient;
         ctx.lineWidth = 2;
         ctx.shadowBlur = 15;
-        ctx.shadowColor = '#00ffff';
+        ctx.shadowColor = dynamicColors[0];
         ctx.stroke();
 
         animationId = requestAnimationFrame(draw);
@@ -97,7 +110,7 @@ const CircularWaveform: React.FC = () => {
       cancelAnimationFrame(animationId);
       audioCtx.close();
     };
-  }, []);
+  }, [recordingStatus]);
 
   return <canvas ref={canvasRef} style={{ display: 'block', background: '#0a0a1f' }} />;
 };
