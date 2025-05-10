@@ -180,10 +180,10 @@ const ResultPage: React.FC = () => {
       overflow="hidden"
       position="relative"
     >
-      <BreathCircle vectors={vectors}></BreathCircle>
-      <TimeSeriesLineChart data={spectrogram}></TimeSeriesLineChart>
-      <CircularBarChart data={vectors}></CircularBarChart>
 
+      <TimeSeriesLineChart data={vectors}></TimeSeriesLineChart>
+
+      <BreathCircle vectors={vectors}></BreathCircle>
       <Box
         key={0}
         ref={sectionRefs[0]}
@@ -221,7 +221,7 @@ const ResultPage: React.FC = () => {
         </Modal>
       </Box>
 
-      <Box
+       <Box
         key={1}
         ref={sectionRefs[1]}
         height="100vh"
@@ -233,10 +233,35 @@ const ResultPage: React.FC = () => {
         alignItems="center"
         bg={`gray.${(0 + 1) * 200}`}
       >
-        <CompareWithCeleb name={celebName} src={`/${celebName}.jpg`} similarity={Math.round((celebSimilarity+1)*50)}/>
+        <Text fontSize="5xl" mb={6}>결과 시각화</Text>
+
+        <CircularBarChart data={spectrogram}></CircularBarChart> 
+
         <Button
           key={2}
           onClick={() => scrollToSection(2)}
+          colorScheme={"gray"}
+        >
+          상세 결과 보기
+        </Button>
+      </Box>      
+
+      <Box
+        key={2}
+        ref={sectionRefs[2]}
+        height="100vh"
+        width="100%"
+        scrollSnapAlign="start"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        bg={`gray.${(0 + 1) * 200}`}
+      >
+        <CompareWithCeleb name={celebName} src={`/${celebName}.jpg`} similarity={Math.round((celebSimilarity+1)*50)}/>
+        <Button
+          key={3}
+          onClick={() => scrollToSection(3)}
           colorScheme={"gray"}
         >
           더보기!
@@ -244,8 +269,8 @@ const ResultPage: React.FC = () => {
       </Box>
 
       <Box
-        key={2}
-        ref={sectionRefs[2]}
+        key={3}
+        ref={sectionRefs[3]}
         height="100vh"
         width="100%"
         scrollSnapAlign="start"
@@ -275,8 +300,8 @@ const ResultPage: React.FC = () => {
         </VStack>
         
         <Button
-          key={3}
-          onClick={() => scrollToSection(3)}
+          key={4}
+          onClick={() => scrollToSection(4)}
           colorScheme={"gray"}
         >
           더보기!
@@ -284,8 +309,8 @@ const ResultPage: React.FC = () => {
       </Box>
 
       <Box
-        key={3}
-        ref={sectionRefs[3]}
+        key={4}
+        ref={sectionRefs[4]}
         height="100vh"
         width="100%"
         scrollSnapAlign="start"
