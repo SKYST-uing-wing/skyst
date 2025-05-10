@@ -1,56 +1,106 @@
 import React, { useEffect, useState } from 'react';
 
-const Visualize: React.FC = () => {
-  const [result, setResult] = useState<string | null>(null);
-  const [status, setStatus] = useState<'loading' | 'processing' | 'done' | 'error'>('loading');
+const ResultPage = () => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+
+  const [targetUser, setTargetUser] = useState('');
+  const [comparisonResult, setComparisonResult] = useState<string | null>(null);
+  const [compareStatus, setCompareStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
   const userName = localStorage.getItem('userName') ?? 'unknown';
 
   useEffect(() => {
-    let interval: number;
-
-    const pollResult = async () => {
+    const fetchImage = async () => {
       try {
-        const response = await fetch(`http://192.168.1.253:8080/upload-mp3?name=${encodeURIComponent(userName)}`);
-        const data = await response.json();
-
-        if (data.status === 'processing') {
-          setStatus('processing');
-        } else if (data.status === 'done') {
-          setResult(data.result);
-          setStatus('done');
-          clearInterval(interval); // Stop polling
-        } else {
-          throw new Error('Unknown status');
-        }
-      } catch (error) {
-        console.error('Error fetching result:', error);
+        const res = await fetch(`/api/result?name=${encodeURIComponent(userName)}`);
+        const data = await res.json();
+        setImageUrl(data.imageUrl);
+        setStatus('ready');
+      } catch (err) {
+        console.error(err);
         setStatus('error');
-        clearInterval(interval);
       }
     };
 
-    // Start polling every 3 seconds
-    interval = setInterval(pollResult, 3000);
-    pollResult(); // call immediately as well
-
-    return () => clearInterval(interval); // cleanup
+    fetchImage();
   }, [userName]);
 
-  return (
-    <div className="h-screen flex flex-col items-center justify-center px-4 text-center">
-      <h1 className="text-3xl font-bold mb-6">Processing Your Audio...</h1>
+  const handleCompare = async () => {
+    if (!targetUser.trim()) return;
+    setCompareStatus('loading');
+    try {
+      const res = await fetch(
+        `/api/compare?name=${encodeURIComponent(userName)}&target=${encodeURIComponent(targetUser)}`
+      );
+      const data = await res.json();
+      setComparisonResult(data.result);
+      setCompareStatus('done');
+    } catch (err) {
+      console.error(err);
+      setCompareStatus('error');
+    }
+  };
 
-      {status === 'loading' || status === 'processing' ? (
-        <div className="text-gray-500 animate-pulse">Please wait while we calculate your result.</div>
-      ) : status === 'done' ? (
-        <div className="bg-white shadow-md rounded p-6 max-w-lg w-full">
-          <p className="text-xl">{result}</p>
-        </div>
-      ) : (
-        <p className="text-red-500">Something went wrong. Please try again later.</p>
-      )}
+  if (status === 'loading') {
+    return (
+      <div className="h-screen flex items-center justify-center text-gray-500 animate-pulse">
+        Loading your result...
+      </div>
+    );
+  }
+
+  if (status === 'error' || !imageUrl) {
+    return (
+      <div className="h-screen flex items-center justify-center text-red-500">
+        Failed to load result image.
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+      {/* Section 1: Result Image */}
+      <section className="snap-start h-screen flex flex-col justify-center items-center bg-gray-100 px-6">
+        <h2 className="text-2xl font-bold mb-4">Your Analysis Image</h2>
+        <img
+          src={imageUrl}
+          alt="Result"
+          className="max-h-[70vh] w-auto rounded shadow-md"
+        />
+      </section>
+
+      {/* Section 2: Comparison Input */}
+      <section className="snap-start h-screen flex flex-col justify-center items-center bg-white px-6">
+        <h2 className="text-2xl font-bold mb-4">Compare With Another User</h2>
+        <input
+          type="text"
+          placeholder="Enter username to compare"
+          value={targetUser}
+          onChange={(e) => setTargetUser(e.target.value)}
+          className="border border-gray-300 rounded px-4 py-2 mb-4 w-full max-w-sm text-center"
+        />
+        <button
+          onClick={handleCompare}
+          className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition"
+        >
+          Compare
+        </button>
+
+        {compareStatus === 'loading' && (
+          <p className="mt-4 text-gray-500 animate-pulse">Comparing...</p>
+        )}
+
+        {compareStatus === 'done' && comparisonResult && (
+          <p className="mt-4 text-lg text-center max-w-lg">{comparisonResult}</p>
+        )}
+
+        {compareStatus === 'error' && (
+          <p className="mt-4 text-red-500">Failed to fetch comparison result.</p>
+        )}
+      </section>
     </div>
   );
 };
 
-export default Visualize;
+export default ResultPage;
