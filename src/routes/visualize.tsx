@@ -4,7 +4,16 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, Input, VStack, Text } from "@chakra-ui/react";
+import { Box, Button, Input, VStack } from "@chakra-ui/react";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Text,
+} from "@chakra-ui/react";
 
 const ResultPage: React.FC = () => {
   const sectionRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
@@ -12,7 +21,7 @@ const ResultPage: React.FC = () => {
   const scrollToSection = (index: number) => {
     sectionRefs[index].current?.scrollIntoView({ behavior: "smooth" });
   };
-
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [finding, setFinding] = useState(false);
@@ -157,6 +166,10 @@ const ResultPage: React.FC = () => {
   //   [0.19, 0.4, 0.81, 0.07, 0.91, 0.8],
   //   [0.21, 0.5, 0.82, 0.08, 0.90, 0.9]
   // ];
+
+  const onClose = () => {
+        setShowModal(false);
+    };
   
 
   return (
@@ -191,6 +204,21 @@ const ResultPage: React.FC = () => {
         >
           상세 결과 보기
         </Button>
+        <Button onClick={() => setShowModal(true)}>이게 뭐죠...?</Button>
+        <Modal isOpen={showModal} onClose={onClose} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader textAlign="center">저의 숨소리가 어떻게 분석되나요?</ModalHeader>
+                <ModalBody>
+                    <Text>녹음된 숨소리는 openL3 기반의 오디오 벡터화를 거쳐 숨소리의 특징을 담은 벡터로 변환됩니다. 여러분의 숨소리는 log-mel spectrogram으로 변환되고 openL3 기반의 신경망을 거쳐 512 차원의 벡터가 됩니다. 이 벡터들끼리의 연산으로 여러분과 다른 사용자 사이의 "궁합"이 얻어지는 것이죠.</Text>
+                </ModalBody>
+                <ModalFooter justifyContent="flex-end">
+                    <Button onClick={onClose} mr={3} colorScheme="gray">
+                        확인
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
       </Box>
 
       <Box
