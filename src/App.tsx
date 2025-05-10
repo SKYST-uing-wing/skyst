@@ -1,4 +1,3 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Welcome from "./routes/welcome";
 import VoiceInput from "./routes/voice_input";

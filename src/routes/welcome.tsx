@@ -21,7 +21,7 @@ const SnapScrollComponent: React.FC = () => {
       return;
     }
     localStorage.setItem("userName", name);
-    navigate("/next-page");
+    navigate("/voice_input");
   };
 
   return (

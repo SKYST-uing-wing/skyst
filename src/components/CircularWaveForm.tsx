@@ -94,7 +94,7 @@ const CircularWaveform: React.FC<CircularWaveformProps> = ({ recordingStatus }) 
       draw();
     }).catch(err => {
       console.error('Microphone access error:', err);
-      alert('🎤 마이크 권한이 필요합니다.');
+      alert('🎤 마이크 권한이 없어요... 새로고침 후 권한 재설정!!');
     });
 
     const handleResize = () => {

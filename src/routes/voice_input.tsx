@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAudioRecorder } from 'react-use-audio-recorder';
 import CircularWaveform from '../components/CircularWaveForm';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Center } from '@chakra-ui/react';
+import { Box, Button, Center, HStack, Image } from '@chakra-ui/react';
 import {
     Modal,
     ModalOverlay,
@@ -10,7 +10,10 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Heading,
+    Text,
 } from "@chakra-ui/react";
+import logoIcon from "../assets/output.png";
 
 const VoiceInput: React.FC = () => {
     const {
@@ -73,6 +76,17 @@ const VoiceInput: React.FC = () => {
 
     return (
         <Box w="100vw" h="100vh">
+            <HStack
+                position="absolute"
+                top="1rem"
+                left="1rem"
+                spacing={2}
+                alignItems="center"
+                zIndex={1}
+            >
+                <Image src={logoIcon} alt="Logo" boxSize={12} />
+                <Heading fontSize="4xl" fontWeight="bold" color={'white'}>숨: 고르기</Heading>
+            </HStack>
             <Box style={{ position: "absolute", top: 0 }}>
                 <CircularWaveform recordingStatus={recordingStatus === "recording"} />
             </Box>
@@ -81,22 +95,25 @@ const VoiceInput: React.FC = () => {
                     onClick={handleRecord}
                     disabled={recordingStatus === "recording"}
                 >
-                    {recordingStatus === "recording" ? "Recording..." : "Start Recording"}
+                    {recordingStatus === "recording" ? "듣는 중..." : "녹음 시작!"}
                 </Button>
+            </Center>
+            <Center>
+                <Text color={'white'} zIndex={1} position={'absolute'} top={'80%'} fontSize={22} >5초 동안 숨소리를 들려주세요...</Text>
             </Center>
             <Modal isOpen={showModal} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader textAlign="center">Review Your Recording</ModalHeader>
+                    <ModalHeader textAlign="center">다시 들어 보기</ModalHeader>
                     <ModalBody>
                         <audio controls src={audioURL ?? ""} style={{ width: "100%" }} />
                     </ModalBody>
                     <ModalFooter justifyContent="flex-end">
                         <Button onClick={onClose} mr={3} colorScheme="gray">
-                            Cancel
+                            취소
                         </Button>
                         <Button onClick={handleConfirm} colorScheme="blue">
-                            Confirm & Continue
+                            확인 & 진행!
                         </Button>
                     </ModalFooter>
                 </ModalContent>
