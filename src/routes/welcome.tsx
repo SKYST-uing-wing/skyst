@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Box, Button, Input, VStack, Text, HStack, Image, Heading } from "@chakra-ui/react";
+import { Box, Button, Input, VStack, Text, HStack, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import logoIcon from "../assets/output.png";
 import textIcon from "../assets/icon2.png"
