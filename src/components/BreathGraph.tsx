@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import {
   LineChart,
@@ -25,26 +26,27 @@ const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({ data }) => {
   });
 
   return (
-    <ResponsiveContainer width={600} height={400}>
-      <LineChart
-        data={formattedData}
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} horizontal={false} />
-        <XAxis dataKey="time" axisLine={true} tickLine={false} tick={false} />
-        <YAxis axisLine={true} tickLine={false} tick={false} />
-        {keys.map((key, index) => (
-          <Line
-            key={key}
-            type="monotone"
-            dataKey={key}
-            stroke={colors[index % colors.length]}
-            dot={false}
-            isAnimationActive={false}
-          />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
+    <Box borderWidth={2} borderTop={'none'} borderRight={'none'} borderColor={'black'}>
+      <ResponsiveContainer width={300} height={200}>
+        <LineChart
+          data={formattedData}
+        >
+          <CartesianGrid strokeDasharray="3 3" vertical={false} horizontal={false} />
+          <XAxis dataKey="time" axisLine={true} tickLine={false} tick={false} hide />
+          <YAxis axisLine={true} tickLine={false} tick={false} hide />
+          {keys.map((key, index) => (
+            <Line
+              key={key}
+              type="monotone"
+              dataKey={key}
+              stroke={colors[index % colors.length]}
+              dot={false}
+              isAnimationActive={false}
+            />
+          ))}
+        </LineChart>
+      </ResponsiveContainer>
+    </Box>
   );
 };
 
