@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 import CompareWithCeleb from '../components/CompareWithCeleb';
-import { Box, Button, Input, VStack, Text, HStack, Image, Heading } from "@chakra-ui/react";
+import { Box, Button, Input, VStack, Text } from "@chakra-ui/react";
 
 const ResultPage: React.FC = () => {
   const sectionRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
@@ -20,13 +20,26 @@ const ResultPage: React.FC = () => {
   const [findingStatus, setFindingStatus] = useState<'idle' | 'loading' | 'done'>('idle');
 
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [vectors, setVectors] = useState<number[][]>([]);
+  const [vectors, setVectors] = useState<number[][]>([[]]);
+  const [spectrogram, setSpectrogram] = useState<number[][]>([[]]);
 
   const [targetUser, setTargetUser] = useState('');
   const [comparisonResult, setComparisonResult] = useState<number>(0);
   const [compareStatus, setCompareStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
 
   const userName = localStorage.getItem('userName') ?? 'unknown';
+
+  const fetchSpec = async () => {
+    try {
+      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
+      const spec = await res.json();
+      setSpectrogram(spec);
+      setStatus('ready');
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
+  }
 
   const [celebName, setCelebName] = useState('차은우');
   const [celebSimilarity, setCelebSimilarity] = useState(0.5);
@@ -47,38 +60,27 @@ const ResultPage: React.FC = () => {
     };
 
     fetchImage();
+    fetchSpec();
   }, [userName]);
 
-  const fetchSpec = async () => {
-    try {
-      const res = await fetch(`${URI}spectrogram?name=${encodeURIComponent(userName)}`)
-      const spec = await res.json();
-      setVectors(spec.vectors);
-      setStatus('ready');
-    } catch (err) {
-      console.error(err);
-      setStatus('error');
-    }
-  }
 
-  const spec: number[][] = [[]];
-  fetchSpec();
 
-  const handleCompare = async () => {
-    if (!targetUser.trim()) return;
-    setCompareStatus('loading');
-    try {
-      const res = await fetch(
-        `/api/compare?name=${encodeURIComponent(userName)}&target=${encodeURIComponent(targetUser)}`
-      );
-      const data = await res.json();
-      setComparisonResult(data.result);
-      setCompareStatus('done');
-    } catch (err) {
-      console.error(err);
-      setCompareStatus('error');
-    }
-  };
+
+  // const handleCompare = async () => {
+  //   if (!targetUser.trim()) return;
+  //   setCompareStatus('loading');
+  //   try {
+  //     const res = await fetch(
+  //       `/api/compare?name=${encodeURIComponent(userName)}&target=${encodeURIComponent(targetUser)}`
+  //     );
+  //     const data = await res.json();
+  //     setComparisonResult(data.result);
+  //     setCompareStatus('done');
+  //   } catch (err) {
+  //     console.error(err);
+  //     setCompareStatus('error');
+  //   }
+  // };
 
   if (status === 'loading') {
     return (
@@ -165,6 +167,10 @@ const ResultPage: React.FC = () => {
       overflow="hidden"
       position="relative"
     >
+      <BreathCircle vectors={vectors}></BreathCircle>
+      <TimeSeriesLineChart data={spectrogram}></TimeSeriesLineChart>
+      <CircularBarChart data={vectors}></CircularBarChart>
+
       <Box
         key={0}
         ref={sectionRefs[0]}
