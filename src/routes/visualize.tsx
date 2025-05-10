@@ -4,7 +4,7 @@ import { URI } from '../../const';
 import TimeSeriesLineChart from '../components/BreathGraph';
 import CircularBarChart from '../components/CircularBarNCS';
 
-const ResultPage = () => {
+const ResultPage: React.FC = () => {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [vectors, setVectors] = useState<number[][]>([]);
 
