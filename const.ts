@@ -1,1 +1,1 @@
-export const URI: string = 'http://192.168.1.253:8080/'
+export const URI: string = 'http://178.128.219.133/' //'http://192.168.1.253:8080/'
